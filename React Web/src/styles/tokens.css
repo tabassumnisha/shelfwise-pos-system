@@ -1,0 +1,29 @@
+/* Shelfwise POS: a calm, fast point-of-sale app.
+   Design tokens live in :root. Change them to re-skin the whole store. */
+
+@font-face { font-family: 'Inter'; src: url('../assets/fonts/Inter-Regular.woff') format('woff'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Inter'; src: url('../assets/fonts/Inter-Medium.woff') format('woff'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Inter'; src: url('../assets/fonts/Inter-SemiBold.woff') format('woff'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Inter Display'; src: url('../assets/fonts/InterDisplay-Light.woff') format('woff'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Inter Display'; src: url('../assets/fonts/InterDisplay-Medium.woff') format('woff'); font-weight: 500; font-display: swap; }
+
+:root {
+  --ink: #0f1f3d;
+  --ink-2: #1a2d52;
+  --ink-3: #2a4170;
+  --mist: #f3f5f9;
+  --mist-2: #e4e9f2;
+  --paper: #ffffff;
+  --accent: #0e7c66;
+  --accent-hi: #5fd3b5;
+  --accent-ink: #0a5c4b;
+  --amber: #f5b83d;
+  --char: #17233b;
+  --taupe: #566178;
+  --wine: #b3261e;
+  --line: rgba(15, 31, 61, 0.14);
+  --line-light: rgba(243, 245, 249, 0.2);
+  --radius: 8px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --display: 'Inter Display', 'Inter', system-ui, sans-serif;
+}

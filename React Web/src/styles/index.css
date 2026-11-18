@@ -1,0 +1,6 @@
+/* Shelfwise POS styles. Order matters: later files override earlier ones. */
+@import './tokens.css';
+@import './base.css';
+@import './app.css';
+@import './pos.css';
+@import './pages.css';

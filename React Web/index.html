@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shelfwise POS | Point of sale and inventory system for small shops</title>
+    <meta name="description" content="A complete React, Node and SQLite point of sale: fast checkout, live stock, suppliers and purchase orders, refunds, reports and cashier and admin roles. Try the live demo." />
+    <meta name="theme-color" content="#0F1F3D" />
+    <meta property="og:title" content="Shelfwise POS: point of sale and inventory system" />
+    <meta property="og:description" content="React, Node and SQLite POS with stock control, purchase orders, reports and roles. Try the live demo." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="stylesheet" href="/src/landing/landing.css" />
+  </head>
+  <body>
+    <header class="lp-nav">
+      <div class="lp-wrap">
+        <a href="/" class="lp-logo" aria-label="Shelfwise POS home">
+          <svg width="36" height="36" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><rect width="48" height="48" rx="11" fill="#0E7C66"/><rect x="9" y="12" width="7" height="9" rx="1.5" fill="#fff"/><rect x="18" y="9" width="7" height="12" rx="1.5" fill="#F5B83D"/><rect x="27" y="14" width="12" height="7" rx="1.5" fill="#fff"/><rect x="9" y="22.5" width="30" height="2.6" rx="1.3" fill="#fff" opacity=".9"/><rect x="9" y="29" width="12" height="7" rx="1.5" fill="#F5B83D"/><rect x="23" y="27" width="7" height="9" rx="1.5" fill="#fff"/><rect x="32" y="30" width="7" height="6" rx="1.5" fill="#fff"/><rect x="9" y="37.5" width="30" height="2.6" rx="1.3" fill="#fff" opacity=".9"/></svg>
+          <span>Shelfwise <small>POS</small></span>
+        </a>
+        <nav class="lp-links" aria-label="Sections"><a href="#features">Features</a><a href="#screens">Screens</a><a href="#why">Why it sells</a></nav>
+        <a class="lp-btn lp-btn-accent" href="/store/">Live demo</a>
+      </div>
+    </header>
+    <main>
+      <section class="lp-hero">
+        <div class="lp-wrap">
+          <div>
+            <span class="lp-eyebrow">Point of sale and inventory</span>
+            <h1>One screen for the till, <em>the shelves and the numbers.</em></h1>
+            <p class="lp-lead">Fast checkout with barcode search, stock that updates on every sale and refund, suppliers and purchase orders, and daily reports. A real Node server and SQLite database sit behind it.</p>
+            <div class="lp-cta"><a class="lp-btn lp-btn-accent" href="/store/">Open the live demo &rarr;</a><a class="lp-btn lp-btn-line" href="#screens">See the screens</a></div>
+            <ul class="lp-stack" aria-label="Tech stack"><li>React 19</li><li>Vite 7</li><li>Node 22</li><li>SQLite</li><li>No server dependencies</li></ul>
+          </div>
+          <div class="lp-shots"><div class="lp-frame"><div class="lp-frame-bar"><i></i><i></i><i></i></div><img src="/src/assets/landing/terminal.webp" width="1280" height="720" alt="Shelfwise POS terminal with product tiles and a cart" /></div></div>
+        </div>
+      </section>
+      <section class="lp-proof" aria-label="At a glance"><div class="lp-wrap"><ul>
+        <li><b>36</b><span>demo products</span></li><li><b>72</b><span>sample sales</span></li><li><b>2</b><span>roles: admin and cashier</span></li><li><b>28</b><span>API tests passing</span></li><li><b>0</b><span>guest write routes</span></li>
+      </ul></div></section>
+      <section class="lp-section lp-light" id="features"><div class="lp-wrap">
+        <h2>Everything a small shop needs at the counter and in the back room</h2>
+        <ul class="lp-grid">
+          <li><h3>Fast terminal</h3><p>Tiles, search and barcode entry. Discount, cash change, card and mobile payments, and a printable receipt.</p></li>
+          <li><h3>Server-side pricing</h3><p>The browser sends product ids and quantities only. Prices, tax, discount limits and stock are decided in one database transaction.</p></li>
+          <li><h3>Live stock</h3><p>Every sale, refund, delivery and manual change is logged. Stock cannot go below zero.</p></li>
+          <li><h3>Suppliers and orders</h3><p>Low-stock alerts, one-click reorder, purchase orders and receiving that updates stock and cost.</p></li>
+          <li><h3>Refunds</h3><p>Admins refund a sale and the items return to stock, with the action recorded.</p></li>
+          <li><h3>Reports</h3><p>Revenue per day, profit, average sale, top sellers and payment mix for 7, 14 or 30 days.</p></li>
+          <li><h3>Roles</h3><p>Cashiers sell and see their own sales. Admins manage products, stock, team and reports. Every route checks the role on the server.</p></li>
+          <li><h3>Ready to deploy</h3><p>Docker, Render and Vercel demo files, SQL schema and seed scripts, tests and full documentation.</p></li>
+        </ul>
+      </div></section>
+      <section class="lp-section" id="screens"><div class="lp-wrap">
+        <h2>Screens</h2>
+        <div class="lp-gallery">
+          <figure><img loading="lazy" src="/src/assets/landing/sales.webp" width="1280" height="720" alt="Sales history table" /><figcaption>Sales history</figcaption></figure>
+          <figure><img loading="lazy" src="/src/assets/landing/products.webp" width="1280" height="720" alt="Products list with stock" /><figcaption>Products and stock</figcaption></figure>
+          <figure><img loading="lazy" src="/src/assets/landing/stock.webp" width="1280" height="720" alt="Low stock and purchase orders" /><figcaption>Stock and purchase orders</figcaption></figure>
+          <figure><img loading="lazy" src="/src/assets/landing/reports.webp" width="1280" height="720" alt="Reports with revenue chart" /><figcaption>Reports</figcaption></figure>
+        </div>
+      </div></section>
+      <section class="lp-section lp-light" id="why"><div class="lp-wrap">
+        <h2>Why it is ready to sell on</h2>
+        <ul class="lp-grid three">
+          <li><h3>Complete source</h3><p>Front end, API, schema, seed data, tests and deployment files in one archive.</p></li>
+          <li><h3>No secrets inside</h3><p>Demo passwords come from environment variables. Passwords are hashed and sessions are revocable.</p></li>
+          <li><h3>Builds from a clean machine</h3><p>Follow HowToSetup.md: install, build, start. Node 22 only.</p></li>
+        </ul>
+        <p class="lp-cta-end"><a class="lp-btn lp-btn-accent" href="/store/">Try it now &rarr;</a></p>
+      </div></section>
+    </main>
+    <footer class="lp-foot"><div class="lp-wrap"><span>Shelfwise POS. Demo data only.</span></div></footer>
+  </body>
+</html>

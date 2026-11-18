@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+"""Generates database/seed.sql (demo data). Deterministic: the same output every run.
+Dates are relative to 'now' so the demo always shows the last two weeks of trading.
+Usage: python3 database/make_seed.py > database/seed.sql
+Users are not in this file: the server creates the two demo users with hashed passwords (server/db.js)."""
+import random
+
+rnd = random.Random(96)
+q = lambda s: "'" + s.replace("'", "''") + "'"
+
+suppliers = [
+    (1, 'Greenfield Wholesale', 'Maria Lopez', 'orders@greenfield.example', '+1 555 0141'),
+    (2, 'Harbor Beverage Co.', 'Daniel Okoye', 'sales@harborbev.example', '+1 555 0172'),
+    (3, 'Daily Crumb Bakery', 'Priya Nair', 'hello@dailycrumb.example', '+1 555 0108'),
+    (4, 'Homeline Supplies', 'Tom Becker', 'trade@homeline.example', '+1 555 0155'),
+]
+# sku, name, category, supplier, price, cost, tax%, final stock, reorder, color
+P = [
+ ('DRK-001','Sparkling water 500 ml','drinks',2,1.25,0.55,0,96,24,'#4C9BB5'),
+ ('DRK-002','Cold brew coffee','drinks',2,3.90,1.60,8,40,12,'#6B4A32'),
+ ('DRK-003','Orange juice 1 L','drinks',2,3.40,1.70,0,31,10,'#E08A2E'),
+ ('DRK-004','Green tea, bottled','drinks',2,2.20,0.90,8,58,15,'#5C8A4A'),
+ ('DRK-005','Cola 330 ml can','drinks',2,1.50,0.60,8,6,24,'#B23A3A'),
+ ('DRK-006','Oat milk 1 L','drinks',1,3.10,1.55,0,27,8,'#C9B18A'),
+ ('DRK-007','Energy drink','drinks',2,2.60,1.05,8,44,12,'#2F8F5B'),
+ ('SNK-001','Salted almonds 150 g','snacks',1,4.50,2.40,8,35,10,'#B98B52'),
+ ('SNK-002','Potato crisps 50 g','snacks',1,1.80,0.70,8,120,30,'#D9A93A'),
+ ('SNK-003','Dark chocolate bar','snacks',1,2.90,1.20,8,62,15,'#4A2E22'),
+ ('SNK-004','Granola bar','snacks',1,1.60,0.65,8,4,20,'#8C6B3F'),
+ ('SNK-005','Trail mix 200 g','snacks',1,5.20,2.80,8,22,8,'#A4663A'),
+ ('SNK-006','Rice cakes','snacks',1,2.40,1.00,8,29,10,'#CDB98F'),
+ ('SNK-007','Gummy bears 100 g','snacks',1,1.90,0.75,8,75,20,'#D6536D'),
+ ('BKR-001','Butter croissant','bakery',3,2.80,1.10,0,18,10,'#D8A44A'),
+ ('BKR-002','Sourdough loaf','bakery',3,6.50,2.60,0,14,6,'#9B6A3B'),
+ ('BKR-003','Blueberry muffin','bakery',3,3.20,1.30,0,16,8,'#5B5FA8'),
+ ('BKR-004','Cinnamon roll','bakery',3,3.60,1.40,0,3,8,'#B5733A'),
+ ('BKR-005','Seeded bagel','bakery',3,2.30,0.90,0,24,10,'#C79A55'),
+ ('BKR-006','Almond biscotti','bakery',3,4.20,1.90,0,20,6,'#B58B5B'),
+ ('HSE-001','Dish soap 500 ml','household',4,3.80,1.70,8,26,8,'#3C9AA8'),
+ ('HSE-002','Paper towels, 2 rolls','household',4,4.90,2.30,8,33,10,'#8AA9B8'),
+ ('HSE-003','Laundry pods, 20','household',4,9.90,5.10,8,17,6,'#4F7FB5'),
+ ('HSE-004','Sponges, pack of 4','household',4,2.70,1.00,8,41,12,'#D1B534'),
+ ('HSE-005','Trash bags, 30','household',4,5.60,2.70,8,2,8,'#4E5D6A'),
+ ('HSE-006','Glass cleaner 500 ml','household',4,3.60,1.50,8,23,8,'#5FA6C9'),
+ ('HSE-007','LED bulb 9 W','household',4,4.10,1.80,8,38,10,'#E7C547'),
+ ('PRC-001','Hand soap 250 ml','personal-care',4,3.30,1.40,8,36,10,'#7D6BA8'),
+ ('PRC-002','Toothpaste 100 ml','personal-care',4,3.70,1.60,8,45,12,'#3F9E9B'),
+ ('PRC-003','Shampoo 300 ml','personal-care',4,6.80,3.10,8,19,8,'#2F8F7E'),
+ ('PRC-004','Body lotion 250 ml','personal-care',4,7.40,3.40,8,9,8,'#C47C8A'),
+ ('PRC-005','Deodorant stick','personal-care',4,4.60,2.00,8,28,8,'#5C7BA8'),
+ ('PRC-006','Lip balm','personal-care',4,2.10,0.80,8,64,15,'#C95D5D'),
+ ('PRC-007','Cotton swabs, 200','personal-care',4,2.50,0.95,8,31,10,'#9DB6C9'),
+ ('PRC-008','Razors, pack of 3','personal-care',4,5.90,2.60,8,0,6,'#4C6F8C'),
+ ('PRC-009','Tissues, 3 boxes','personal-care',4,4.40,1.90,8,47,12,'#8FB0A0'),
+]
+cust = [None]*5 + ['Sam Rivera', 'Jordan Lee', 'Priya Shah', 'Chris Bauer', 'Mina Park']
+n_sales = 72
+sales = []
+sold = {i: 0 for i in range(1, len(P)+1)}
+for k in range(n_sales):
+    day = 13 - (k * 14) // n_sales
+    n_lines = rnd.choice([1, 1, 2, 2, 3, 4])
+    picks = rnd.sample(range(1, len(P)+1), n_lines)
+    lines = [(pid, rnd.choice([1, 1, 1, 2, 3])) for pid in picks]
+    pct = rnd.choice([0]*8 + [5, 10])
+    method = rnd.choice(['card', 'card', 'cash', 'cash', 'mobile'])
+    cashier = rnd.choice([1, 2, 2])
+    hour = rnd.randint(9, 8 if day == 0 else 19) if day else rnd.randint(8, 9)
+    minute = rnd.randint(0, 59)
+    refunded = k in (17, 41)
+    sales.append(dict(day=day, hour=hour, minute=minute, lines=lines, pct=pct, method=method, cashier=cashier,
+                      customer=rnd.choice(cust), refunded=refunded))
+for s in sales:
+    if not s['refunded']:
+        for pid, qty in s['lines']:
+            sold[pid] += qty
+# purchases received during the period
+purchases = [(1, 3, 'received', 9, [(1, 48), (6, 24)]), (2, 2, 'received', 6, [(2, 24), (7, 24)]),
+             (3, 3, 'ordered', 0, [(15, 12), (18, 12)]), (4, 4, 'ordered', 0, [(25, 12), (35, 12)])]
+recv = {i: 0 for i in range(1, len(P)+1)}
+for _, _, st, _, its in purchases:
+    if st == 'received':
+        for pid, qty in its: recv[pid] += qty
+
+out = ['-- Demo data for Shelfwise POS. Generated by database/make_seed.py. Loaded only into an empty database in DEMO_MODE.',
+       '-- Users are created by the server (hashed passwords), so this file contains no credentials.', 'PRAGMA foreign_keys = ON;']
+for s in suppliers:
+    out.append(f"INSERT INTO suppliers (id, name, contact_name, email, phone) VALUES ({s[0]}, {q(s[1])}, {q(s[2])}, {q(s[3])}, {q(s[4])});")
+for i, p in enumerate(P, 1):
+    sku, name, cat, sup, price, cost, tax, final, reorder, color = p
+    barcode = '5901234' + str(10000 + i * 7).zfill(5)
+    out.append(f"INSERT INTO products (id, sku, barcode, name, category_id, supplier_id, price_cents, cost_cents, tax_bp, stock, reorder_level, color) VALUES "
+               f"({i}, {q(sku)}, {q(barcode)}, {q(name)}, {q(cat)}, {sup}, {round(price*100)}, {round(cost*100)}, {tax*100}, {final}, {reorder}, {q(color)});")
+    initial = final + sold[i] - recv[i]
+    out.append(f"INSERT INTO stock_movements (product_id, delta, reason, note, user_id, created_at) VALUES ({i}, {initial}, 'initial', 'Opening count', 1, datetime('now', '-14 days'));")
+for sid, (n, sup, st, day, its) in enumerate(purchases, 1):
+    out.append(f"INSERT INTO purchases (id, supplier_id, status, note, created_by, created_at, received_at) VALUES ({sid}, {sup}, {q(st)}, {q('Weekly restock')}, 1, datetime('now', '-{day+1} days'), "
+               + (f"datetime('now', '-{day} days'));" if st == 'received' else 'NULL);'))
+    for pid, qty in its:
+        out.append(f"INSERT INTO purchase_items (purchase_id, product_id, qty, unit_cost_cents) VALUES ({sid}, {pid}, {qty}, {round(P[pid-1][5]*100)});")
+        if st == 'received':
+            out.append(f"INSERT INTO stock_movements (product_id, delta, reason, ref, user_id, created_at) VALUES ({pid}, {qty}, 'purchase', 'PO-{sid}', 1, datetime('now', '-{day} days'));")
+names = {1: 'Alex Morgan', 2: 'Riley Chen'}
+for sid, s in enumerate(sales, 1):
+    sub = disc = tax = 0
+    rows = []
+    for pid, qty in s['lines']:
+        p = P[pid-1]
+        price, cost, taxbp = round(p[4]*100), round(p[5]*100), p[6]*100
+        gross = price*qty
+        d = round(gross*s['pct']/100 + 1e-9)
+        t = round((gross-d)*taxbp/10000 + 1e-9)
+        sub += gross; disc += d; tax += t
+        rows.append((pid, p[1], p[0], qty, price, cost, taxbp, gross))
+    total = sub - disc + tax
+    tendered = total if s['method'] != 'cash' else ((total + 499)//500)*500
+    ts = f"datetime(date('now', '-{s['day']} days'), '+{s['hour']} hours', '+{s['minute']} minutes')"
+    cu = q(s['customer']) if s['customer'] else 'NULL'
+    status = 'refunded' if s['refunded'] else 'completed'
+    ref = f"{ts}, 1" if s['refunded'] else 'NULL, NULL'
+    out.append(f"INSERT INTO sales (id, receipt_no, cashier_id, cashier_name, customer_name, subtotal_cents, discount_cents, tax_cents, total_cents, method, tendered_cents, change_cents, status, refunded_at, refunded_by, created_at) VALUES "
+               f"({sid}, 'R-{10000+sid}', {s['cashier']}, {q(names[s['cashier']])}, {cu}, {sub}, {disc}, {tax}, {total}, {q(s['method'])}, {tendered}, {tendered-total}, {q(status)}, {ref}, {ts});")
+    for pid, nm, sku, qty, price, cost, taxbp, gross in rows:
+        out.append(f"INSERT INTO sale_items (sale_id, product_id, name, sku, qty, unit_price_cents, unit_cost_cents, tax_bp, line_cents) VALUES ({sid}, {pid}, {q(nm)}, {q(sku)}, {qty}, {price}, {cost}, {taxbp}, {gross});")
+        out.append(f"INSERT INTO stock_movements (product_id, delta, reason, ref, user_id, created_at) VALUES ({pid}, {-qty}, 'sale', 'R-{10000+sid}', {s['cashier']}, {ts});")
+        if s['refunded']:
+            out.append(f"INSERT INTO stock_movements (product_id, delta, reason, ref, user_id, created_at) VALUES ({pid}, {qty}, 'refund', 'R-{10000+sid}', 1, {ts});")
+print('\n'.join(out))
