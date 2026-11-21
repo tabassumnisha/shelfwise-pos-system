@@ -1,6 +1,6 @@
 # LICENSE NOTE
 
-**Product:** Shelfwise POS, point of sale and inventory system (React front end, Node API, SQLite database, cashier and admin roles), version 1.0.0
+**Product:** Shelfwise POS, point of sale and inventory system (React front end, Node API, SQLite database, cashier and admin roles), version 1.1.0
 **Licensor:** Ride Bangla Limited, Faridpur, Bangladesh, info@ridebangla.bd
 **Copyright:** © 2026 Ride Bangla Limited. All rights reserved, except as expressly granted below.
 

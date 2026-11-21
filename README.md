@@ -27,7 +27,8 @@ No password is written in the code. On the hosted demo the sign-in page shows th
 - Manual stock changes with a note and a movement log (sale, refund, purchase, adjustment)
 - Low-stock list with one-click reorder; purchase orders (ordered, received, cancelled); receiving adds stock and updates cost; supplier directory
 
-**Admin: reports and team**
+**Admin: dashboard, reports and team**
+- Dashboard with KPI cards, a 14-day revenue chart, recent sales and a restock list; loading skeletons, empty states and success and error messages on every page; tables stack into cards on phones
 - Revenue per day chart, gross profit, average sale, top sellers, payment mix, stock value; 7, 14 or 30 days
 - Team: add cashiers and admins, change roles, reset passwords, deactivate (signs the person out at once)
 

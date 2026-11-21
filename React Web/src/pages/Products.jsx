@@ -1,3 +1,4 @@
+import { EmptyState } from '../components/Feedback'
 import { useEffect, useMemo, useState } from 'react'
 import { api } from '../api'
 import { useStore } from '../store'
@@ -52,7 +53,7 @@ export default function Products() {
 
   const remove = async (p) => {
     if (!window.confirm(`Delete ${p.name}? This cannot be undone.`)) return
-    try { await api('DELETE', `/products/${p.id}`, {}); await loadProducts(); notify('Product deleted') } catch (e) { notify(e.message) }
+    try { await api('DELETE', `/products/${p.id}`, {}); await loadProducts(); notify('Product deleted') } catch (e) { notify(e.message, 'error') }
   }
   const saved = async (p, isNew) => { setEditing(null); await loadProducts(); notify(isNew ? 'Product added' : 'Product saved') }
 
@@ -86,7 +87,7 @@ export default function Products() {
                 </td>
               </tr>
             ))}
-            {shown.length === 0 && <tr><td colSpan={6} className="muted">No products match.</td></tr>}
+            {shown.length === 0 && <tr className="empty-row"><td colSpan={6}><EmptyState icon="box" title="No products found" text="Try a different search or category." /></td></tr>}
           </tbody>
         </table>
       </div>

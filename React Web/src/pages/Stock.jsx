@@ -1,3 +1,4 @@
+import { EmptyState } from '../components/Feedback'
 import { useCallback, useEffect, useState } from 'react'
 import { api } from '../api'
 import { useStore } from '../store'
@@ -20,13 +21,13 @@ export default function Stock() {
     try {
       const [s, p] = await Promise.all([api('GET', '/suppliers'), api('GET', '/purchases')])
       setSuppliers(s.suppliers); setPurchases(p.purchases)
-    } catch (e) { notify(e.message) }
+    } catch (e) { notify(e.message, 'error') }
   }, [notify])
   useEffect(() => { load() }, [load])
 
   const low = products.filter((p) => p.active && p.low).sort((a, b) => a.stock - b.stock)
   const act = async (p, what) => {
-    try { await api('POST', `/purchases/${p.id}/${what}`, {}); await load(); if (what === 'receive') await loadProducts(); notify(what === 'receive' ? 'Stock received' : 'Order cancelled') } catch (e) { notify(e.message) }
+    try { await api('POST', `/purchases/${p.id}/${what}`, {}); await load(); if (what === 'receive') await loadProducts(); notify(what === 'receive' ? 'Stock received' : 'Order cancelled') } catch (e) { notify(e.message, 'error') }
   }
   const reorder = (p) => setForm({ supplierId: p.supplierId, items: [{ productId: p.id, qty: String(Math.max(p.reorderLevel * 2 - p.stock, 6)), unitCost: String(p.cost) }] })
 
@@ -76,7 +77,7 @@ export default function Stock() {
                   </td>
                 </tr>
               ))}
-              {purchases.length === 0 && <tr><td colSpan={6} className="muted">No purchase orders yet.</td></tr>}
+              {purchases.length === 0 && <tr className="empty-row"><td colSpan={6}><EmptyState icon="truck" title="No purchase orders yet" text="Create one from a supplier when stock runs low." /></td></tr>}
             </tbody>
           </table>
         </div>

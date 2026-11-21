@@ -12,6 +12,7 @@ const PATHS = {
   users: 'M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5M16 4.5a3.5 3.5 0 0 1 0 6.5M18 14.8c2.2.7 4 2.3 4 5.2',
   logout: 'M10 5H5v14h5M15 8l4 4-4 4M19 12H9',
   box: 'M3 8l9-5 9 5v8l-9 5-9-5V8zm0 0 9 5 9-5M12 13v8',
+  grid: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z',
   chart: 'M4 20V10m6 10V4m6 16v-7m4 7H3',
   register: 'M5 3h14v18H5zM8 7h8M8 11h2m3 0h3M8 15h2m3 0h3',
   receipt: 'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6',

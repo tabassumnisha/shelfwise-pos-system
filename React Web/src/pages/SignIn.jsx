@@ -16,7 +16,7 @@ export default function SignIn() {
 
   const run = async (fn) => {
     setBusy(true); setError('')
-    try { await fn(); navigate('/pos') } catch (e) { setError(e.message) } finally { setBusy(false) }
+    try { await fn(); navigate('/') } catch (e) { setError(e.message) } finally { setBusy(false) }
   }
   const submit = (e) => {
     e.preventDefault()
@@ -43,7 +43,7 @@ export default function SignIn() {
           {error && <p className="form-error" role="alert">{error}</p>}
           <TextField label="Email" type="email" autoComplete="username" value={email} onChange={setEmail} />
           <TextField label="Password" type="password" autoComplete="current-password" value={password} onChange={setPassword} />
-          <button className="btn btn-primary btn-block" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button>
+          <button className="btn btn-primary btn-block" disabled={busy}>{busy ? <><span className="spinner sm" aria-hidden="true" /> Signing in…</> : 'Sign in'}</button>
         </form>
         {demoAccounts.length > 0 && (
           <section className="login-card demo" aria-label="Demo access">

@@ -16,10 +16,11 @@ export function StoreProvider({ children }) {
   const [toast, setToast] = useState(null)
   const timer = useRef(null)
 
-  const notify = useCallback((message) => {
-    setToast({ message, id: Date.now() })
+  // kind: 'success' (default) or 'error'. Errors stay a little longer.
+  const notify = useCallback((message, kind = 'success') => {
+    setToast({ message, kind, id: Date.now() })
     clearTimeout(timer.current)
-    timer.current = setTimeout(() => setToast(null), 2800)
+    timer.current = setTimeout(() => setToast(null), kind === 'error' ? 5000 : 2800)
   }, [])
 
   const loadProducts = useCallback(async () => {
@@ -67,7 +68,7 @@ export function StoreProvider({ children }) {
       await api('POST', '/admin/reset-demo', {})
       await loadProducts()
       notify('Demo data restored')
-    } catch (e) { notify(e.message) }
+    } catch (e) { notify(e.message, 'error') }
   }, [loadProducts, notify])
 
   const value = { user, admin: user?.role === 'admin', ready, products, categories, loadProducts, demoAccounts, demoMode, rules, toast, notify, login, demoLogin, logout, resetDemo }

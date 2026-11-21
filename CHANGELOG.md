@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0 (2026-11-21)
+Premium redesign.
+- New admin Dashboard (default page for admins): KPI cards, revenue chart, recent sales and a restock list. Cashiers still open the terminal.
+- Loading skeletons and spinners, friendly empty states, and success and error toasts with different colours.
+- Tables stack into labelled cards on phones; tablet spacing tuned; refreshed sign-in screen.
+- Redesigned landing page with hero, features, screenshots, how it works, benefits, tech stack and a clear Live demo button.
+
 ## 1.0.0 (2026-11-18)
 First release of Shelfwise POS, a point of sale and inventory system.
 - Terminal: product tiles, search and barcode entry, cart, discount, cash change, card and mobile payments, printable receipt.

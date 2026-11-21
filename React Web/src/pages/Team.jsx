@@ -40,10 +40,10 @@ export default function Team() {
   const { user: me, notify } = useStore()
   const [users, setUsers] = useState([])
   const [editing, setEditing] = useState(null)
-  const load = useCallback(() => api('GET', '/users').then((d) => setUsers(d.users)).catch((e) => notify(e.message)), [notify])
+  const load = useCallback(() => api('GET', '/users').then((d) => setUsers(d.users)).catch((e) => notify(e.message, 'error')), [notify])
   useEffect(() => { load() }, [load])
   const toggle = async (u) => {
-    try { await api('PATCH', `/users/${u.id}`, { active: !u.active }); load(); notify(u.active ? 'Account deactivated' : 'Account reactivated') } catch (e) { notify(e.message) }
+    try { await api('PATCH', `/users/${u.id}`, { active: !u.active }); load(); notify(u.active ? 'Account deactivated' : 'Account reactivated') } catch (e) { notify(e.message, 'error') }
   }
   return (
     <div className="page">

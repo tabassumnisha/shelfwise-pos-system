@@ -5,6 +5,7 @@ import { money } from '../config'
 import { usePageTitle, fmtDateTime, label } from '../utils'
 import Receipt from '../components/Receipt'
 import { Icon } from '../components/Icons'
+import { EmptyState, Skeleton } from '../components/Feedback'
 
 export default function Sales() {
   usePageTitle('Sales')
@@ -24,7 +25,7 @@ export default function Sales() {
   const total = shown.filter((s) => s.status === 'completed').reduce((n, s) => n + s.total, 0)
 
   const view = async (id) => {
-    try { setOpen((await api('GET', `/sales/${id}`)).sale) } catch (e) { notify(e.message) }
+    try { setOpen((await api('GET', `/sales/${id}`)).sale) } catch (e) { notify(e.message, 'error') }
   }
   const refund = async () => {
     if (!window.confirm(`Refund ${open.receiptNo} for ${money(open.total)}? The items go back into stock.`)) return
@@ -32,7 +33,7 @@ export default function Sales() {
     try {
       const d = await api('POST', `/sales/${open.id}/refund`, {})
       setOpen(d.sale); notify('Sale refunded and stock restored'); load(); loadProducts()
-    } catch (e) { notify(e.message) } finally { setBusy(false) }
+    } catch (e) { notify(e.message, 'error') } finally { setBusy(false) }
   }
 
   return (
@@ -52,7 +53,7 @@ export default function Sales() {
         </div>
       </div>
       {error && <p className="form-error" role="alert">{error}</p>}
-      {!sales && !error ? <p className="muted" role="status">Loading sales…</p> : (
+      {!sales && !error ? <Skeleton /> : (
         <div className="table-wrap">
           <table className="data">
             <caption className="sr">Sales, newest first</caption>
@@ -67,7 +68,7 @@ export default function Sales() {
                   <td className="right"><button type="button" className="btn btn-outline btn-sm" onClick={() => view(s.id)} aria-label={`View ${s.receiptNo}`}>View</button></td>
                 </tr>
               ))}
-              {shown.length === 0 && <tr><td colSpan={8} className="muted">No sales match.</td></tr>}
+              {shown.length === 0 && <tr className="empty-row"><td colSpan={8}><EmptyState icon="receipt" title="No sales found" text="Try a different search or status." /></td></tr>}
             </tbody>
           </table>
         </div>

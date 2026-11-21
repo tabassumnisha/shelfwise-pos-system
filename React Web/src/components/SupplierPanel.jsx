@@ -38,7 +38,7 @@ export default function SupplierPanel({ suppliers, reload }) {
   const [editing, setEditing] = useState(null)
   const remove = async (s) => {
     if (!window.confirm(`Delete ${s.name}?`)) return
-    try { await api('DELETE', `/suppliers/${s.id}`, {}); reload(); notify('Supplier deleted') } catch (e) { notify(e.message) }
+    try { await api('DELETE', `/suppliers/${s.id}`, {}); reload(); notify('Supplier deleted') } catch (e) { notify(e.message, 'error') }
   }
   return (
     <section aria-label="Suppliers">

@@ -1,3 +1,4 @@
+import { EmptyState } from '../components/Feedback'
 import { useMemo, useRef, useState } from 'react'
 import { api } from '../api'
 import { useStore } from '../store'
@@ -89,7 +90,7 @@ export default function Terminal() {
             ))}
           </div>
         </div>
-        {shown.length === 0 ? <p className="muted empty-note">Nothing matches your search.</p> : (
+        {shown.length === 0 ? <EmptyState icon="search" title="Nothing matches your search" text="Check the spelling or scan the barcode again." /> : (
           <ul className="tiles">
             {shown.map((p) => {
               const left = p.stock - (cart[p.id] || 0)
